@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creators Hub — by Artistude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #080808;
+    --dark:    #111111;
+    --card:    #161616;
+    --white:   #ffffff;
+    --yellow:  #ff9d25;
+    --yellow2: #e8b800;
+    --yellow-glow: rgba(245,200,66,0.12);
+    --muted:   rgba(255,255,255,0.4);
+    --border:  rgba(255,255,255,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 2px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 5rem;
+    background: rgba(8,8,8,0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 0.5px solid var(--border);
+    animation: fadeDown 0.7s ease both;
+  }
+  .nav-logo {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: 1px; color: var(--white);
+  }
+  .nav-logo span { color: var(--yellow); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px; font-weight: 400;
+    color: var(--muted); text-decoration: none;
+    letter-spacing: 0.3px; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-cta {
+    background: var(--yellow); color: #000;
+    border: none; padding: 0.6rem 1.6rem;
+    border-radius: 6px; font-size: 13px;
+    font-weight: 600; cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s, background 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover { background: var(--yellow2); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 9rem 5rem 5rem;
+    position: relative; overflow: hidden;
+  }
+
+  /* Galaxy canvas */
+  #galaxy {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Central yellow nebula glow */
+  .hero::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+    width: 800px; height: 800px;
+    background: none;
+    animation: nebula 8s ease-in-out infinite;
+    pointer-events: none; z-index: 0;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(245,200,66,0.05) 0%, transparent 70%);
+    animation: nebula 11s ease-in-out infinite reverse;
+    pointer-events: none; z-index: 0;
+  }
+  @keyframes nebula {
+    0%,100% { transform: translate(-50%,-55%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%,-55%) scale(1.15); opacity: 1; }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 780px; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.2);
+    color: var(--yellow); font-size: 11px;
+    font-weight: 500; padding: 5px 14px;
+    border-radius: 4px; margin-bottom: 1.6rem;
+    letter-spacing: 1px; text-transform: uppercase;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px;
+    background: var(--yellow); border-radius: 50%;
+    animation: blink 1.8s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .hero-title {
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -2px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-title em {
+    color: var(--yellow); font-style: normal;
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 16px; color: var(--muted);
+    line-height: 1.8; max-width: 520px;
+    margin: 1.4rem auto 2rem;
+    font-weight: 300;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .btn-primary {
+    background: var(--yellow); color: #000;
+    border: none; padding: 0.85rem 2rem;
+    border-radius: 6px; font-size: 14px;
+    font-weight: 700; cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.3px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(245,200,66,0.3);
+  }
+  .btn-outline {
+    background: transparent; color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 0.85rem 2rem; border-radius: 6px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  /* hero tags row below buttons */
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 2rem; animation: fadeUp 0.7s 0.55s ease both; }
+  .hero-tag {
+    background: rgba(245,200,66,0.07);
+    color: rgba(245,200,66,0.7); font-size: 11px;
+    font-weight: 500; padding: 5px 14px;
+    border-radius: 4px;
+    border: 1px solid rgba(245,200,66,0.15);
+  }
+
+  /* ── STATS ── */
+  .stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    background: rgba(245,200,66,0.02);
+  }
+  .stat {
+    text-align: center; padding: 2.5rem 1rem;
+    border-right: 0.5px solid var(--border);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .stat:last-child { border-right: none; }
+  .stat.visible { opacity: 1; transform: translateY(0); }
+  .stat-num {
+    font-size: 48px; font-weight: 800;
+    color: var(--yellow); line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat-label {
+    font-size: 12px; color: var(--muted);
+    margin-top: 6px; font-weight: 400;
+  }
+
+  /* ── SECTIONS ── */
+  .section-tag {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--yellow);
+    font-weight: 600; margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.5px; margin-bottom: 1.2rem;
+  }
+  .section-body {
+    font-size: 15px; color: var(--muted);
+    line-height: 1.9; font-weight: 300;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 7rem 5rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .about-cards {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .about-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 12px; padding: 1.4rem;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+  }
+  .about-card.visible { opacity: 1; transform: translateY(0); }
+  .about-card:hover { border-color: rgba(245,200,66,0.3); transform: translateY(-4px) !important; }
+  .about-icon {
+    width: 38px; height: 38px;
+    background: rgba(245,200,66,0.08);
+    border-radius: 8px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 0.8rem;
+  }
+  .about-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .about-card-sub { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── CURRICULUM ── */
+  .curriculum {
+    padding: 7rem 5rem;
+    background: var(--dark);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .curriculum-header { margin-bottom: 3.5rem; }
+  .curriculum-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+  }
+  .c-item {
+    background: var(--black);
+    border: 0.5px solid var(--border);
+    border-radius: 14px; padding: 1.8rem 1.5rem;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+  }
+  .c-item.visible { opacity: 1; transform: translateY(0); }
+  .c-item:hover { border-color: rgba(245,200,66,0.3); }
+  .c-item:hover .c-fill { width: 100% !important; }
+  .c-num {
+    font-size: 64px; font-weight: 900;
+    color: rgba(245,200,66,0.05);
+    position: absolute; top: -8px; right: 12px;
+    line-height: 1; pointer-events: none;
+  }
+  .c-icon { font-size: 26px; margin-bottom: 0.8rem; display: block; }
+  .c-title { font-size: 15px; font-weight: 600; margin-bottom: 5px; }
+  .c-desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
+  .c-bar { height: 2px; background: rgba(245,200,66,0.12); border-radius: 2px; overflow: hidden; }
+  .c-fill { height: 100%; background: var(--yellow); border-radius: 2px; transition: width 1.2s ease; }
+
+  /* ── WORK ── */
+  .work { padding: 7rem 5rem; }
+  .work-header { margin-bottom: 3.5rem; }
+  .work-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+  }
+  .work-card {
+    border-radius: 14px; overflow: hidden;
+    aspect-ratio: 9/14; position: relative;
+    cursor: pointer;
+    opacity: 0; transform: scale(0.96);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .work-card.visible { opacity: 1; transform: scale(1); }
+  .work-card:hover .wc-inner { transform: scale(1.05); }
+  .work-card:hover .wc-overlay { opacity: 1; }
+  .wc-inner {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.5s ease;
+  }
+  .wc-bg1 { background: linear-gradient(135deg, #0d1a12, #142a1e); }
+  .wc-bg2 { background: linear-gradient(135deg, #0a1220, #0f2035); }
+  .wc-bg3 { background: linear-gradient(135deg, #1a1200, #2a1e00); }
+  .wc-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+    opacity: 0.65; transition: opacity 0.3s;
+  }
+  .wc-play {
+    width: 50px; height: 50px;
+    background: var(--yellow);
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+    transition: transform 0.3s;
+  }
+  .work-card:hover .wc-play { transform: scale(1.12); }
+  .wc-play svg { margin-left: 3px; }
+  .wc-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.2rem; z-index: 3;
+  }
+  .wc-badge {
+    display: inline-block;
+    background: rgba(245,200,66,0.15);
+    color: var(--yellow); font-size: 10px;
+    font-weight: 600; padding: 3px 10px;
+    border-radius: 4px; margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .wc-name { font-size: 14px; font-weight: 600; }
+  .wc-desc { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+  /* ── FORM ── */
+  .form-section {
+    padding: 7rem 5rem;
+    background: var(--dark);
+    border-top: 0.5px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .form-section::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(245,200,66,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .form-inner {
+    max-width: 520px; margin: 0 auto;
+    text-align: center; position: relative; z-index: 1;
+  }
+  .form-inner .section-title { font-size: clamp(32px, 4vw, 52px); }
+  .form-sub {
+    font-size: 14px; color: var(--muted);
+    margin: 0.8rem 0 2.5rem; line-height: 1.8;
+    font-weight: 300;
+  }
+  .form { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+  .form input {
+    width: 100%; padding: 0.9rem 1.2rem;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px; font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--white); outline: none;
+    transition: border-color 0.3s;
+    font-weight: 300;
+  }
+  .form input:focus { border-color: var(--yellow); }
+  .form input::placeholder { color: rgba(255,255,255,0.2); }
+  .form-btn {
+    background: var(--yellow); color: #000;
+    border: none; padding: 1rem;
+    border-radius: 8px; font-size: 14px;
+    font-weight: 700; cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.3px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 4px;
+  }
+  .form-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(245,200,66,0.25);
+  }
+  .form-note {
+    font-size: 11px; color: rgba(255,255,255,0.2);
+    text-align: center; margin-top: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 0.5px solid var(--border);
+    background: var(--black);
+  }
+  .footer-logo { font-size: 15px; font-weight: 700; }
+  .footer-logo span { color: var(--yellow); }
+  .footer-text { font-size: 11px; color: rgba(255,255,255,0.2); }
+  .footer-link {
+    font-size: 12px; color: var(--yellow);
+    text-decoration: none; opacity: 0.6;
+    transition: opacity 0.2s; font-weight: 500;
+  }
+  .footer-link:hover { opacity: 1; }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; }
+    .hero-right { display: none; }
+    .about { grid-template-columns: 1fr; padding: 4rem 2rem; gap: 2.5rem; }
+    .curriculum { padding: 4rem 2rem; }
+    .curriculum-grid { grid-template-columns: 1fr 1fr; }
+    .work { padding: 4rem 2rem; }
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .form-section { padding: 4rem 2rem; }
+    footer { padding: 1.5rem 2rem; flex-direction: column; gap: 6px; text-align: center; }
+  }
+  @media (max-width: 540px) {
+    .curriculum-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; }
+    .about-cards { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>C.Hub</span> by aartistude</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#learn">Curriculum</a></li>
+    <li><a href="#work">Student Work</a></li>
+    <li><a href="#apply">Apply</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Apply Now</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="galaxy"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="dot"></span> 2026 Batch — Now Open in Technopark Trivandrum </div>
+    <h1 class="hero-title">Art Starts<br>From <em>Zero.</em></h1>
+    <p class="hero-sub">Kerala's creator academy — built for students, influencers, editors, and dreamers who want to turn content into a career.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Apply Now →</button>
+      <button class="btn-outline" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">See Student Work</button>
+    </div>
+    <div class="hero-tags">
+      <span class="hero-tag">Photography</span>
+      <span class="hero-tag">Reels</span>
+      <span class="hero-tag">YouTube</span>
+      <span class="hero-tag">Video Editing</span>
+      <span class="hero-tag">Storytelling</span>
+      <span class="hero-tag">Social Growth</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Creators Trained</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-label">Weeks Intensive</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Hands-On Learning</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div>
+    <div class="section-tag">About the Academy</div>
+    <h2 class="section-title">Built for Creators.<br>Made in Kerala.</h2>
+    <p class="section-body">Creators Hub is an initiative by Artistude Innovations — built to give every young person in Kerala the tools, skills, and confidence to build a real career through content. Whether you're a student, a freelancer, or just someone with a phone and a dream — this is where your journey begins.</p>
+  </div>
+  <div class="about-cards">
+    <div class="about-card"><div class="about-icon">📸</div><div class="about-card-title">Real Projects</div><div class="about-card-sub">Work on actual briefs from day one</div></div>
+    <div class="about-card"><div class="about-icon">🎬</div><div class="about-card-title">Industry Mentors</div><div class="about-card-sub">Learn from working professionals</div></div>
+    <div class="about-card"><div class="about-icon">📱</div><div class="about-card-title">Platform Ready</div><div class="about-card-sub">Instagram, YouTube & beyond</div></div>
+    <div class="about-card"><div class="about-icon">🚀</div><div class="about-card-title">Career Support</div><div class="about-card-sub">Portfolio and placement help</div></div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum" id="learn">
+  <div class="curriculum-header">
+    <div class="section-tag">Curriculum</div>
+    <h2 class="section-title">What You Will Learn</h2>
+  </div>
+  <div class="curriculum-grid">
+    <div class="c-item"><div class="c-num">01</div><span class="c-icon">📸</span><div class="c-title">Photography</div><div class="c-desc">Composition, lighting, framing — shoot like a pro with any camera.</div><div class="c-bar"><div class="c-fill" style="width:90%"></div></div></div>
+    <div class="c-item"><div class="c-num">02</div><span class="c-icon">🎨</span><div class="c-title">Photo Editing</div><div class="c-desc">Lightroom, colour grading — make every shot stunning.</div><div class="c-bar"><div class="c-fill" style="width:82%"></div></div></div>
+    <div class="c-item"><div class="c-num">03</div><span class="c-icon">🎥</span><div class="c-title">Videography</div><div class="c-desc">Camera movement, angles, cinematic storytelling from day one.</div><div class="c-bar"><div class="c-fill" style="width:78%"></div></div></div>
+    <div class="c-item"><div class="c-num">04</div><span class="c-icon">✂️</span><div class="c-title">Video Editing</div><div class="c-desc">Reels, YouTube, transitions — edit content that holds attention.</div><div class="c-bar"><div class="c-fill" style="width:95%"></div></div></div>
+    <div class="c-item"><div class="c-num">05</div><span class="c-icon">✍️</span><div class="c-title">Storytelling</div><div class="c-desc">Scripts, hooks, narrative arcs — turn ideas into content people finish watching.</div><div class="c-bar"><div class="c-fill" style="width:88%"></div></div></div>
+    <div class="c-item"><div class="c-num">06</div><span class="c-icon">📈</span><div class="c-title">Social Media Growth</div><div class="c-desc">Algorithm, strategy, analytics — grow a real audience from scratch.</div><div class="c-bar"><div class="c-fill" style="width:92%"></div></div></div>
+  </div>
+</section>
+
+<!-- STUDENT WORK -->
+<section class="work" id="work">
+  <div class="work-header">
+    <div class="section-tag">Student Work</div>
+    <h2 class="section-title">Made by Our Creators</h2>
+  </div>
+  <div class="work-grid">
+    <div class="work-card">
+      <div class="wc-inner wc-bg1"><div class="wc-play"><svg width="13" height="15" viewBox="0 0 13 15" fill="#000"><path d="M1 1l11 6.5-11 6.5z"/></svg></div></div>
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><span class="wc-badge">Travel Reel</span><div class="wc-name">Hari.</div><div class="wc-desc">Munnar, Kerala</div></div>
+    </div>
+    <div class="work-card">
+      <div class="wc-inner wc-bg2"><div class="wc-play"><svg width="13" height="15" viewBox="0 0 13 15" fill="#000"><path d="M1 1l11 6.5-11 6.5z"/></svg></div></div>
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><span class="wc-badge">Brand Film</span><div class="wc-name">Gokul.</div><div class="wc-desc">Local Cafe, Kochi</div></div>
+    </div>
+    <div class="work-card">
+      <div class="wc-inner wc-bg3"><div class="wc-play"><svg width="13" height="15" viewBox="0 0 13 15" fill="#000"><path d="M1 1l11 6.5-11 6.5z"/></svg></div></div>
+      <div class="wc-overlay"></div>
+      <div class="wc-info"><span class="wc-badge">Cinematic Short</span><div class="wc-name">Xavier.</div><div class="wc-desc">Trivandrum Streets</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="apply">
+  <div class="form-inner">
+    <div class="section-tag">Start Your Journey</div>
+    <h2 class="section-title">Join the<br>Next Batch.</h2>
+    <p class="form-sub">Limited seats per batch. Fill in your details and we'll reach out with everything you need to know.</p>
+    <div class="form">
+      <input type="text" placeholder="Your full name" />
+      <input type="tel" placeholder="Phone number" />
+      <input type="email" placeholder="Email address" />
+      <button class="form-btn">Start Your Creator Journey →</button>
+      <p class="form-note">Your details are safe, We'll only contact you about your application.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>C.Hub</span> <span style="color:rgba(255,255,255,0.25);font-weight:300;font-size:12px"> · by Artistude</span></div>
+  <div class="footer-text">© 2026 Artistude Innovations Pvt. Ltd.</div>
+  <a href="https://artistude.com" class="footer-link" target="_blank">artistude.com ↗</a>
+</footer>
+
+<script>
+// ── GALAXY CANVAS ──
+const canvas = document.getElementById('galaxy');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [], shootingStars = [];
+
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+window.addEventListener('resize', () => { resize(); initStars(); });
+
+function initStars() {
+  stars = [];
+  const count = Math.floor((W * H) / 3000);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.4 + 0.2,
+      alpha: Math.random() * 0.7 + 0.1,
+      speed: Math.random() * 0.003 + 0.001,
+      phase: Math.random() * Math.PI * 2,
+      // color: mostly white, some warm yellow
+      warm: Math.random() < 0.15
+    });
+  }
+}
+
+function spawnShootingStar() {
+  if (shootingStars.length < 3 && Math.random() < 0.008) {
+    const x = Math.random() * W;
+    const y = Math.random() * H * 0.5;
+    shootingStars.push({
+      x, y, len: Math.random() * 120 + 60,
+      speed: Math.random() * 6 + 4,
+      alpha: 1,
+      angle: Math.PI / 5 + Math.random() * 0.3
+    });
+  }
+}
+
+function drawFrame(t) {
+  ctx.clearRect(0, 0, W, H);
+
+  // Stars
+  stars.forEach(s => {
+    const twinkle = 0.4 + 0.6 * Math.sin(t * s.speed + s.phase);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    if (s.warm) {
+      ctx.fillStyle = `rgba(245,210,100,${s.alpha * twinkle})`;
+    } else {
+      ctx.fillStyle = `rgba(255,255,255,${s.alpha * twinkle})`;
+    }
+    ctx.fill();
+  });
+
+  // Dust clusters (soft nebula)
+  const nebulas = [
+    { x: W * 0.2, y: H * 0.3, r: 180, c: '245,200,66', a: 0.025 },
+    { x: W * 0.75, y: H * 0.6, r: 140, c: '200,180,255', a: 0.018 },
+    { x: W * 0.5, y: H * 0.2, r: 200, c: '245,200,66', a: 0.02 },
+  ];
+  nebulas.forEach(n => {
+    const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+    g.addColorStop(0, `rgba(${n.c},${n.a})`);
+    g.addColorStop(1, `rgba(${n.c},0)`);
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Shooting stars
+  spawnShootingStar();
+  shootingStars = shootingStars.filter(s => s.alpha > 0.02);
+  shootingStars.forEach(s => {
+    const tx = s.x + Math.cos(s.angle) * s.len;
+    const ty = s.y + Math.sin(s.angle) * s.len;
+    const g = ctx.createLinearGradient(s.x, s.y, tx, ty);
+    g.addColorStop(0, `rgba(255,240,180,${s.alpha})`);
+    g.addColorStop(1, `rgba(255,240,180,0)`);
+    ctx.beginPath();
+    ctx.strokeStyle = g;
+    ctx.lineWidth = 1.5;
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+    s.x += Math.cos(s.angle) * s.speed;
+    s.y += Math.sin(s.angle) * s.speed;
+    s.alpha *= 0.96;
+  });
+
+  requestAnimationFrame(drawFrame);
+}
+
+resize();
+initStars();
+requestAnimationFrame(drawFrame);
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.stat, .about-card, .c-item, .work-card').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.07}s`;
+  io.observe(el);
+});
+</script>
+</body>
+</html>
